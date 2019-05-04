@@ -1,0 +1,1940 @@
+﻿<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<RSLogix5000Content SchemaRevision="1.0" SoftwareRevision="20.05" TargetName="MorseCode" TargetType="AddOnInstructionDefinition" TargetRevision="1.0 " TargetLastEdited="2019-05-04T00:27:06.946Z" ContainsContext="true" Owner="Meritor Employee, Meritor, INC." ExportDate="Fri May 03 19:27:49 2019" ExportOptions="References DecoratedData Context Dependencies ForceProtectedEncoding AllProjDocTrans">
+<Controller Use="Context" Name="TonePlayer">
+<DataTypes Use="Context">
+<DataType Name="Code" Family="NoFamily" Class="User">
+<Members>
+<Member Name="Length" DataType="SINT" Dimension="0" Radix="Decimal" Hidden="false" ExternalAccess="Read/Write"/>
+<Member Name="Code" DataType="SINT" Dimension="0" Radix="Decimal" Hidden="false" ExternalAccess="Read/Write"/>
+</Members>
+</DataType>
+</DataTypes>
+<AddOnInstructionDefinitions Use="Context">
+<AddOnInstructionDefinition Use="Target" Name="MorseCode" Revision="1.0" ExecutePrescan="false" ExecutePostscan="false" ExecuteEnableInFalse="true" CreatedDate="2019-05-03T20:12:47.992Z" CreatedBy="abc" EditedDate="2019-05-04T00:27:06.946Z" EditedBy="abc" SoftwareRevision="v20.05"
+>
+<Parameters>
+<Parameter Name="EnableIn" TagType="Base" DataType="BOOL" Usage="Input" Radix="Decimal" Required="false" Visible="false" ExternalAccess="Read Only">
+<Description>
+<![CDATA[Enable Input - System Defined Parameter]]>
+</Description>
+</Parameter>
+<Parameter Name="EnableOut" TagType="Base" DataType="BOOL" Usage="Output" Radix="Decimal" Required="false" Visible="false" ExternalAccess="Read Only">
+<Description>
+<![CDATA[Enable Output - System Defined Parameter]]>
+</Description>
+</Parameter>
+<Parameter Name="Message" TagType="Base" DataType="STRING" Usage="InOut" Required="true" Visible="true" Constant="false"/>
+<Parameter Name="Output" TagType="Base" DataType="BOOL" Usage="Output" Radix="Decimal" Required="false" Visible="true" ExternalAccess="Read Only">
+<DefaultData>00</DefaultData>
+<DefaultData Format="Decorated">
+<DataValue DataType="BOOL" Radix="Decimal" Value="0"/>
+</DefaultData>
+</Parameter>
+<Parameter Name="WPM" TagType="Base" DataType="DINT" Usage="Input" Radix="Decimal" Required="false" Visible="true" ExternalAccess="Read/Write">
+<DefaultData>64 00 00 00</DefaultData>
+<DefaultData Format="Decorated">
+<DataValue DataType="DINT" Radix="Decimal" Value="100"/>
+</DefaultData>
+</Parameter>
+<Parameter Name="DN" TagType="Base" DataType="BOOL" Usage="Output" Radix="Decimal" Required="false" Visible="true" ExternalAccess="Read Only">
+<DefaultData>00</DefaultData>
+<DefaultData Format="Decorated">
+<DataValue DataType="BOOL" Radix="Decimal" Value="0"/>
+</DefaultData>
+</Parameter>
+<Parameter Name="EN" TagType="Base" DataType="BOOL" Usage="Output" Radix="Decimal" Required="false" Visible="true" ExternalAccess="Read Only">
+<DefaultData>00</DefaultData>
+<DefaultData Format="Decorated">
+<DataValue DataType="BOOL" Radix="Decimal" Value="0"/>
+</DefaultData>
+</Parameter>
+<Parameter Name="IP" TagType="Base" DataType="BOOL" Usage="Output" Radix="Decimal" Required="false" Visible="true" ExternalAccess="Read Only">
+<DefaultData>00</DefaultData>
+<DefaultData Format="Decorated">
+<DataValue DataType="BOOL" Radix="Decimal" Value="0"/>
+</DefaultData>
+</Parameter>
+</Parameters>
+<LocalTags>
+<LocalTag Name="msg_len" DataType="DINT" Radix="Decimal" ExternalAccess="None">
+<DefaultData>00 00 00 00</DefaultData>
+<DefaultData Format="Decorated">
+<DataValue DataType="DINT" Radix="Decimal" Value="0"/>
+</DefaultData>
+</LocalTag>
+<LocalTag Name="msg_pos" DataType="DINT" Radix="Decimal" ExternalAccess="None">
+<DefaultData>00 00 00 00</DefaultData>
+<DefaultData Format="Decorated">
+<DataValue DataType="DINT" Radix="Decimal" Value="0"/>
+</DefaultData>
+</LocalTag>
+<LocalTag Name="CODES" DataType="Code" Dimensions="128" ExternalAccess="None">
+<DefaultData>00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 
+00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 
+00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 
+00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 
+00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 
+00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 
+00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 
+00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 
+00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 
+00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 
+00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 
+00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 
+00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 
+00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 
+00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 
+00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 
+00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 
+00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 
+00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 
+00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 
+00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 
+00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 
+00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 
+00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 
+00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 
+00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 
+00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 
+00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 
+00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 
+00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 
+00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 
+00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00</DefaultData>
+<DefaultData Format="Decorated">
+<Array DataType="Code" Dimensions="128">
+<Element Index="[0]">
+<Structure DataType="Code">
+<DataValueMember Name="Length" DataType="SINT" Radix="Decimal" Value="0"/>
+<DataValueMember Name="Code" DataType="SINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[1]">
+<Structure DataType="Code">
+<DataValueMember Name="Length" DataType="SINT" Radix="Decimal" Value="0"/>
+<DataValueMember Name="Code" DataType="SINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[2]">
+<Structure DataType="Code">
+<DataValueMember Name="Length" DataType="SINT" Radix="Decimal" Value="0"/>
+<DataValueMember Name="Code" DataType="SINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[3]">
+<Structure DataType="Code">
+<DataValueMember Name="Length" DataType="SINT" Radix="Decimal" Value="0"/>
+<DataValueMember Name="Code" DataType="SINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[4]">
+<Structure DataType="Code">
+<DataValueMember Name="Length" DataType="SINT" Radix="Decimal" Value="0"/>
+<DataValueMember Name="Code" DataType="SINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[5]">
+<Structure DataType="Code">
+<DataValueMember Name="Length" DataType="SINT" Radix="Decimal" Value="0"/>
+<DataValueMember Name="Code" DataType="SINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[6]">
+<Structure DataType="Code">
+<DataValueMember Name="Length" DataType="SINT" Radix="Decimal" Value="0"/>
+<DataValueMember Name="Code" DataType="SINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[7]">
+<Structure DataType="Code">
+<DataValueMember Name="Length" DataType="SINT" Radix="Decimal" Value="0"/>
+<DataValueMember Name="Code" DataType="SINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[8]">
+<Structure DataType="Code">
+<DataValueMember Name="Length" DataType="SINT" Radix="Decimal" Value="0"/>
+<DataValueMember Name="Code" DataType="SINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[9]">
+<Structure DataType="Code">
+<DataValueMember Name="Length" DataType="SINT" Radix="Decimal" Value="0"/>
+<DataValueMember Name="Code" DataType="SINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[10]">
+<Structure DataType="Code">
+<DataValueMember Name="Length" DataType="SINT" Radix="Decimal" Value="0"/>
+<DataValueMember Name="Code" DataType="SINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[11]">
+<Structure DataType="Code">
+<DataValueMember Name="Length" DataType="SINT" Radix="Decimal" Value="0"/>
+<DataValueMember Name="Code" DataType="SINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[12]">
+<Structure DataType="Code">
+<DataValueMember Name="Length" DataType="SINT" Radix="Decimal" Value="0"/>
+<DataValueMember Name="Code" DataType="SINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[13]">
+<Structure DataType="Code">
+<DataValueMember Name="Length" DataType="SINT" Radix="Decimal" Value="0"/>
+<DataValueMember Name="Code" DataType="SINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[14]">
+<Structure DataType="Code">
+<DataValueMember Name="Length" DataType="SINT" Radix="Decimal" Value="0"/>
+<DataValueMember Name="Code" DataType="SINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[15]">
+<Structure DataType="Code">
+<DataValueMember Name="Length" DataType="SINT" Radix="Decimal" Value="0"/>
+<DataValueMember Name="Code" DataType="SINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[16]">
+<Structure DataType="Code">
+<DataValueMember Name="Length" DataType="SINT" Radix="Decimal" Value="0"/>
+<DataValueMember Name="Code" DataType="SINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[17]">
+<Structure DataType="Code">
+<DataValueMember Name="Length" DataType="SINT" Radix="Decimal" Value="0"/>
+<DataValueMember Name="Code" DataType="SINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[18]">
+<Structure DataType="Code">
+<DataValueMember Name="Length" DataType="SINT" Radix="Decimal" Value="0"/>
+<DataValueMember Name="Code" DataType="SINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[19]">
+<Structure DataType="Code">
+<DataValueMember Name="Length" DataType="SINT" Radix="Decimal" Value="0"/>
+<DataValueMember Name="Code" DataType="SINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[20]">
+<Structure DataType="Code">
+<DataValueMember Name="Length" DataType="SINT" Radix="Decimal" Value="0"/>
+<DataValueMember Name="Code" DataType="SINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[21]">
+<Structure DataType="Code">
+<DataValueMember Name="Length" DataType="SINT" Radix="Decimal" Value="0"/>
+<DataValueMember Name="Code" DataType="SINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[22]">
+<Structure DataType="Code">
+<DataValueMember Name="Length" DataType="SINT" Radix="Decimal" Value="0"/>
+<DataValueMember Name="Code" DataType="SINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[23]">
+<Structure DataType="Code">
+<DataValueMember Name="Length" DataType="SINT" Radix="Decimal" Value="0"/>
+<DataValueMember Name="Code" DataType="SINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[24]">
+<Structure DataType="Code">
+<DataValueMember Name="Length" DataType="SINT" Radix="Decimal" Value="0"/>
+<DataValueMember Name="Code" DataType="SINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[25]">
+<Structure DataType="Code">
+<DataValueMember Name="Length" DataType="SINT" Radix="Decimal" Value="0"/>
+<DataValueMember Name="Code" DataType="SINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[26]">
+<Structure DataType="Code">
+<DataValueMember Name="Length" DataType="SINT" Radix="Decimal" Value="0"/>
+<DataValueMember Name="Code" DataType="SINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[27]">
+<Structure DataType="Code">
+<DataValueMember Name="Length" DataType="SINT" Radix="Decimal" Value="0"/>
+<DataValueMember Name="Code" DataType="SINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[28]">
+<Structure DataType="Code">
+<DataValueMember Name="Length" DataType="SINT" Radix="Decimal" Value="0"/>
+<DataValueMember Name="Code" DataType="SINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[29]">
+<Structure DataType="Code">
+<DataValueMember Name="Length" DataType="SINT" Radix="Decimal" Value="0"/>
+<DataValueMember Name="Code" DataType="SINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[30]">
+<Structure DataType="Code">
+<DataValueMember Name="Length" DataType="SINT" Radix="Decimal" Value="0"/>
+<DataValueMember Name="Code" DataType="SINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[31]">
+<Structure DataType="Code">
+<DataValueMember Name="Length" DataType="SINT" Radix="Decimal" Value="0"/>
+<DataValueMember Name="Code" DataType="SINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[32]">
+<Structure DataType="Code">
+<DataValueMember Name="Length" DataType="SINT" Radix="Decimal" Value="0"/>
+<DataValueMember Name="Code" DataType="SINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[33]">
+<Structure DataType="Code">
+<DataValueMember Name="Length" DataType="SINT" Radix="Decimal" Value="0"/>
+<DataValueMember Name="Code" DataType="SINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[34]">
+<Structure DataType="Code">
+<DataValueMember Name="Length" DataType="SINT" Radix="Decimal" Value="0"/>
+<DataValueMember Name="Code" DataType="SINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[35]">
+<Structure DataType="Code">
+<DataValueMember Name="Length" DataType="SINT" Radix="Decimal" Value="0"/>
+<DataValueMember Name="Code" DataType="SINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[36]">
+<Structure DataType="Code">
+<DataValueMember Name="Length" DataType="SINT" Radix="Decimal" Value="0"/>
+<DataValueMember Name="Code" DataType="SINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[37]">
+<Structure DataType="Code">
+<DataValueMember Name="Length" DataType="SINT" Radix="Decimal" Value="0"/>
+<DataValueMember Name="Code" DataType="SINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[38]">
+<Structure DataType="Code">
+<DataValueMember Name="Length" DataType="SINT" Radix="Decimal" Value="0"/>
+<DataValueMember Name="Code" DataType="SINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[39]">
+<Structure DataType="Code">
+<DataValueMember Name="Length" DataType="SINT" Radix="Decimal" Value="0"/>
+<DataValueMember Name="Code" DataType="SINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[40]">
+<Structure DataType="Code">
+<DataValueMember Name="Length" DataType="SINT" Radix="Decimal" Value="0"/>
+<DataValueMember Name="Code" DataType="SINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[41]">
+<Structure DataType="Code">
+<DataValueMember Name="Length" DataType="SINT" Radix="Decimal" Value="0"/>
+<DataValueMember Name="Code" DataType="SINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[42]">
+<Structure DataType="Code">
+<DataValueMember Name="Length" DataType="SINT" Radix="Decimal" Value="0"/>
+<DataValueMember Name="Code" DataType="SINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[43]">
+<Structure DataType="Code">
+<DataValueMember Name="Length" DataType="SINT" Radix="Decimal" Value="0"/>
+<DataValueMember Name="Code" DataType="SINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[44]">
+<Structure DataType="Code">
+<DataValueMember Name="Length" DataType="SINT" Radix="Decimal" Value="0"/>
+<DataValueMember Name="Code" DataType="SINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[45]">
+<Structure DataType="Code">
+<DataValueMember Name="Length" DataType="SINT" Radix="Decimal" Value="0"/>
+<DataValueMember Name="Code" DataType="SINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[46]">
+<Structure DataType="Code">
+<DataValueMember Name="Length" DataType="SINT" Radix="Decimal" Value="0"/>
+<DataValueMember Name="Code" DataType="SINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[47]">
+<Structure DataType="Code">
+<DataValueMember Name="Length" DataType="SINT" Radix="Decimal" Value="0"/>
+<DataValueMember Name="Code" DataType="SINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[48]">
+<Structure DataType="Code">
+<DataValueMember Name="Length" DataType="SINT" Radix="Decimal" Value="0"/>
+<DataValueMember Name="Code" DataType="SINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[49]">
+<Structure DataType="Code">
+<DataValueMember Name="Length" DataType="SINT" Radix="Decimal" Value="0"/>
+<DataValueMember Name="Code" DataType="SINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[50]">
+<Structure DataType="Code">
+<DataValueMember Name="Length" DataType="SINT" Radix="Decimal" Value="0"/>
+<DataValueMember Name="Code" DataType="SINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[51]">
+<Structure DataType="Code">
+<DataValueMember Name="Length" DataType="SINT" Radix="Decimal" Value="0"/>
+<DataValueMember Name="Code" DataType="SINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[52]">
+<Structure DataType="Code">
+<DataValueMember Name="Length" DataType="SINT" Radix="Decimal" Value="0"/>
+<DataValueMember Name="Code" DataType="SINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[53]">
+<Structure DataType="Code">
+<DataValueMember Name="Length" DataType="SINT" Radix="Decimal" Value="0"/>
+<DataValueMember Name="Code" DataType="SINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[54]">
+<Structure DataType="Code">
+<DataValueMember Name="Length" DataType="SINT" Radix="Decimal" Value="0"/>
+<DataValueMember Name="Code" DataType="SINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[55]">
+<Structure DataType="Code">
+<DataValueMember Name="Length" DataType="SINT" Radix="Decimal" Value="0"/>
+<DataValueMember Name="Code" DataType="SINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[56]">
+<Structure DataType="Code">
+<DataValueMember Name="Length" DataType="SINT" Radix="Decimal" Value="0"/>
+<DataValueMember Name="Code" DataType="SINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[57]">
+<Structure DataType="Code">
+<DataValueMember Name="Length" DataType="SINT" Radix="Decimal" Value="0"/>
+<DataValueMember Name="Code" DataType="SINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[58]">
+<Structure DataType="Code">
+<DataValueMember Name="Length" DataType="SINT" Radix="Decimal" Value="0"/>
+<DataValueMember Name="Code" DataType="SINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[59]">
+<Structure DataType="Code">
+<DataValueMember Name="Length" DataType="SINT" Radix="Decimal" Value="0"/>
+<DataValueMember Name="Code" DataType="SINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[60]">
+<Structure DataType="Code">
+<DataValueMember Name="Length" DataType="SINT" Radix="Decimal" Value="0"/>
+<DataValueMember Name="Code" DataType="SINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[61]">
+<Structure DataType="Code">
+<DataValueMember Name="Length" DataType="SINT" Radix="Decimal" Value="0"/>
+<DataValueMember Name="Code" DataType="SINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[62]">
+<Structure DataType="Code">
+<DataValueMember Name="Length" DataType="SINT" Radix="Decimal" Value="0"/>
+<DataValueMember Name="Code" DataType="SINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[63]">
+<Structure DataType="Code">
+<DataValueMember Name="Length" DataType="SINT" Radix="Decimal" Value="0"/>
+<DataValueMember Name="Code" DataType="SINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[64]">
+<Structure DataType="Code">
+<DataValueMember Name="Length" DataType="SINT" Radix="Decimal" Value="0"/>
+<DataValueMember Name="Code" DataType="SINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[65]">
+<Structure DataType="Code">
+<DataValueMember Name="Length" DataType="SINT" Radix="Decimal" Value="0"/>
+<DataValueMember Name="Code" DataType="SINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[66]">
+<Structure DataType="Code">
+<DataValueMember Name="Length" DataType="SINT" Radix="Decimal" Value="0"/>
+<DataValueMember Name="Code" DataType="SINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[67]">
+<Structure DataType="Code">
+<DataValueMember Name="Length" DataType="SINT" Radix="Decimal" Value="0"/>
+<DataValueMember Name="Code" DataType="SINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[68]">
+<Structure DataType="Code">
+<DataValueMember Name="Length" DataType="SINT" Radix="Decimal" Value="0"/>
+<DataValueMember Name="Code" DataType="SINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[69]">
+<Structure DataType="Code">
+<DataValueMember Name="Length" DataType="SINT" Radix="Decimal" Value="0"/>
+<DataValueMember Name="Code" DataType="SINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[70]">
+<Structure DataType="Code">
+<DataValueMember Name="Length" DataType="SINT" Radix="Decimal" Value="0"/>
+<DataValueMember Name="Code" DataType="SINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[71]">
+<Structure DataType="Code">
+<DataValueMember Name="Length" DataType="SINT" Radix="Decimal" Value="0"/>
+<DataValueMember Name="Code" DataType="SINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[72]">
+<Structure DataType="Code">
+<DataValueMember Name="Length" DataType="SINT" Radix="Decimal" Value="0"/>
+<DataValueMember Name="Code" DataType="SINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[73]">
+<Structure DataType="Code">
+<DataValueMember Name="Length" DataType="SINT" Radix="Decimal" Value="0"/>
+<DataValueMember Name="Code" DataType="SINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[74]">
+<Structure DataType="Code">
+<DataValueMember Name="Length" DataType="SINT" Radix="Decimal" Value="0"/>
+<DataValueMember Name="Code" DataType="SINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[75]">
+<Structure DataType="Code">
+<DataValueMember Name="Length" DataType="SINT" Radix="Decimal" Value="0"/>
+<DataValueMember Name="Code" DataType="SINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[76]">
+<Structure DataType="Code">
+<DataValueMember Name="Length" DataType="SINT" Radix="Decimal" Value="0"/>
+<DataValueMember Name="Code" DataType="SINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[77]">
+<Structure DataType="Code">
+<DataValueMember Name="Length" DataType="SINT" Radix="Decimal" Value="0"/>
+<DataValueMember Name="Code" DataType="SINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[78]">
+<Structure DataType="Code">
+<DataValueMember Name="Length" DataType="SINT" Radix="Decimal" Value="0"/>
+<DataValueMember Name="Code" DataType="SINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[79]">
+<Structure DataType="Code">
+<DataValueMember Name="Length" DataType="SINT" Radix="Decimal" Value="0"/>
+<DataValueMember Name="Code" DataType="SINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[80]">
+<Structure DataType="Code">
+<DataValueMember Name="Length" DataType="SINT" Radix="Decimal" Value="0"/>
+<DataValueMember Name="Code" DataType="SINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[81]">
+<Structure DataType="Code">
+<DataValueMember Name="Length" DataType="SINT" Radix="Decimal" Value="0"/>
+<DataValueMember Name="Code" DataType="SINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[82]">
+<Structure DataType="Code">
+<DataValueMember Name="Length" DataType="SINT" Radix="Decimal" Value="0"/>
+<DataValueMember Name="Code" DataType="SINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[83]">
+<Structure DataType="Code">
+<DataValueMember Name="Length" DataType="SINT" Radix="Decimal" Value="0"/>
+<DataValueMember Name="Code" DataType="SINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[84]">
+<Structure DataType="Code">
+<DataValueMember Name="Length" DataType="SINT" Radix="Decimal" Value="0"/>
+<DataValueMember Name="Code" DataType="SINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[85]">
+<Structure DataType="Code">
+<DataValueMember Name="Length" DataType="SINT" Radix="Decimal" Value="0"/>
+<DataValueMember Name="Code" DataType="SINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[86]">
+<Structure DataType="Code">
+<DataValueMember Name="Length" DataType="SINT" Radix="Decimal" Value="0"/>
+<DataValueMember Name="Code" DataType="SINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[87]">
+<Structure DataType="Code">
+<DataValueMember Name="Length" DataType="SINT" Radix="Decimal" Value="0"/>
+<DataValueMember Name="Code" DataType="SINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[88]">
+<Structure DataType="Code">
+<DataValueMember Name="Length" DataType="SINT" Radix="Decimal" Value="0"/>
+<DataValueMember Name="Code" DataType="SINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[89]">
+<Structure DataType="Code">
+<DataValueMember Name="Length" DataType="SINT" Radix="Decimal" Value="0"/>
+<DataValueMember Name="Code" DataType="SINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[90]">
+<Structure DataType="Code">
+<DataValueMember Name="Length" DataType="SINT" Radix="Decimal" Value="0"/>
+<DataValueMember Name="Code" DataType="SINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[91]">
+<Structure DataType="Code">
+<DataValueMember Name="Length" DataType="SINT" Radix="Decimal" Value="0"/>
+<DataValueMember Name="Code" DataType="SINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[92]">
+<Structure DataType="Code">
+<DataValueMember Name="Length" DataType="SINT" Radix="Decimal" Value="0"/>
+<DataValueMember Name="Code" DataType="SINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[93]">
+<Structure DataType="Code">
+<DataValueMember Name="Length" DataType="SINT" Radix="Decimal" Value="0"/>
+<DataValueMember Name="Code" DataType="SINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[94]">
+<Structure DataType="Code">
+<DataValueMember Name="Length" DataType="SINT" Radix="Decimal" Value="0"/>
+<DataValueMember Name="Code" DataType="SINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[95]">
+<Structure DataType="Code">
+<DataValueMember Name="Length" DataType="SINT" Radix="Decimal" Value="0"/>
+<DataValueMember Name="Code" DataType="SINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[96]">
+<Structure DataType="Code">
+<DataValueMember Name="Length" DataType="SINT" Radix="Decimal" Value="0"/>
+<DataValueMember Name="Code" DataType="SINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[97]">
+<Structure DataType="Code">
+<DataValueMember Name="Length" DataType="SINT" Radix="Decimal" Value="0"/>
+<DataValueMember Name="Code" DataType="SINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[98]">
+<Structure DataType="Code">
+<DataValueMember Name="Length" DataType="SINT" Radix="Decimal" Value="0"/>
+<DataValueMember Name="Code" DataType="SINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[99]">
+<Structure DataType="Code">
+<DataValueMember Name="Length" DataType="SINT" Radix="Decimal" Value="0"/>
+<DataValueMember Name="Code" DataType="SINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[100]">
+<Structure DataType="Code">
+<DataValueMember Name="Length" DataType="SINT" Radix="Decimal" Value="0"/>
+<DataValueMember Name="Code" DataType="SINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[101]">
+<Structure DataType="Code">
+<DataValueMember Name="Length" DataType="SINT" Radix="Decimal" Value="0"/>
+<DataValueMember Name="Code" DataType="SINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[102]">
+<Structure DataType="Code">
+<DataValueMember Name="Length" DataType="SINT" Radix="Decimal" Value="0"/>
+<DataValueMember Name="Code" DataType="SINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[103]">
+<Structure DataType="Code">
+<DataValueMember Name="Length" DataType="SINT" Radix="Decimal" Value="0"/>
+<DataValueMember Name="Code" DataType="SINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[104]">
+<Structure DataType="Code">
+<DataValueMember Name="Length" DataType="SINT" Radix="Decimal" Value="0"/>
+<DataValueMember Name="Code" DataType="SINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[105]">
+<Structure DataType="Code">
+<DataValueMember Name="Length" DataType="SINT" Radix="Decimal" Value="0"/>
+<DataValueMember Name="Code" DataType="SINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[106]">
+<Structure DataType="Code">
+<DataValueMember Name="Length" DataType="SINT" Radix="Decimal" Value="0"/>
+<DataValueMember Name="Code" DataType="SINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[107]">
+<Structure DataType="Code">
+<DataValueMember Name="Length" DataType="SINT" Radix="Decimal" Value="0"/>
+<DataValueMember Name="Code" DataType="SINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[108]">
+<Structure DataType="Code">
+<DataValueMember Name="Length" DataType="SINT" Radix="Decimal" Value="0"/>
+<DataValueMember Name="Code" DataType="SINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[109]">
+<Structure DataType="Code">
+<DataValueMember Name="Length" DataType="SINT" Radix="Decimal" Value="0"/>
+<DataValueMember Name="Code" DataType="SINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[110]">
+<Structure DataType="Code">
+<DataValueMember Name="Length" DataType="SINT" Radix="Decimal" Value="0"/>
+<DataValueMember Name="Code" DataType="SINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[111]">
+<Structure DataType="Code">
+<DataValueMember Name="Length" DataType="SINT" Radix="Decimal" Value="0"/>
+<DataValueMember Name="Code" DataType="SINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[112]">
+<Structure DataType="Code">
+<DataValueMember Name="Length" DataType="SINT" Radix="Decimal" Value="0"/>
+<DataValueMember Name="Code" DataType="SINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[113]">
+<Structure DataType="Code">
+<DataValueMember Name="Length" DataType="SINT" Radix="Decimal" Value="0"/>
+<DataValueMember Name="Code" DataType="SINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[114]">
+<Structure DataType="Code">
+<DataValueMember Name="Length" DataType="SINT" Radix="Decimal" Value="0"/>
+<DataValueMember Name="Code" DataType="SINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[115]">
+<Structure DataType="Code">
+<DataValueMember Name="Length" DataType="SINT" Radix="Decimal" Value="0"/>
+<DataValueMember Name="Code" DataType="SINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[116]">
+<Structure DataType="Code">
+<DataValueMember Name="Length" DataType="SINT" Radix="Decimal" Value="0"/>
+<DataValueMember Name="Code" DataType="SINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[117]">
+<Structure DataType="Code">
+<DataValueMember Name="Length" DataType="SINT" Radix="Decimal" Value="0"/>
+<DataValueMember Name="Code" DataType="SINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[118]">
+<Structure DataType="Code">
+<DataValueMember Name="Length" DataType="SINT" Radix="Decimal" Value="0"/>
+<DataValueMember Name="Code" DataType="SINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[119]">
+<Structure DataType="Code">
+<DataValueMember Name="Length" DataType="SINT" Radix="Decimal" Value="0"/>
+<DataValueMember Name="Code" DataType="SINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[120]">
+<Structure DataType="Code">
+<DataValueMember Name="Length" DataType="SINT" Radix="Decimal" Value="0"/>
+<DataValueMember Name="Code" DataType="SINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[121]">
+<Structure DataType="Code">
+<DataValueMember Name="Length" DataType="SINT" Radix="Decimal" Value="0"/>
+<DataValueMember Name="Code" DataType="SINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[122]">
+<Structure DataType="Code">
+<DataValueMember Name="Length" DataType="SINT" Radix="Decimal" Value="0"/>
+<DataValueMember Name="Code" DataType="SINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[123]">
+<Structure DataType="Code">
+<DataValueMember Name="Length" DataType="SINT" Radix="Decimal" Value="0"/>
+<DataValueMember Name="Code" DataType="SINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[124]">
+<Structure DataType="Code">
+<DataValueMember Name="Length" DataType="SINT" Radix="Decimal" Value="0"/>
+<DataValueMember Name="Code" DataType="SINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[125]">
+<Structure DataType="Code">
+<DataValueMember Name="Length" DataType="SINT" Radix="Decimal" Value="0"/>
+<DataValueMember Name="Code" DataType="SINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[126]">
+<Structure DataType="Code">
+<DataValueMember Name="Length" DataType="SINT" Radix="Decimal" Value="0"/>
+<DataValueMember Name="Code" DataType="SINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[127]">
+<Structure DataType="Code">
+<DataValueMember Name="Length" DataType="SINT" Radix="Decimal" Value="0"/>
+<DataValueMember Name="Code" DataType="SINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+</Array>
+</DefaultData>
+</LocalTag>
+<LocalTag Name="tick_timer" DataType="FBD_TIMER" ExternalAccess="None">
+<DefaultData>01 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 
+00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 
+00 00 00 00 04 00 00 00 00 00 00 00 00 00 00 00</DefaultData>
+<DefaultData Format="Decorated">
+<Structure DataType="FBD_TIMER">
+<DataValueMember Name="EnableIn" DataType="BOOL" Value="1"/>
+<DataValueMember Name="TimerEnable" DataType="BOOL" Value="0"/>
+<DataValueMember Name="PRE" DataType="DINT" Radix="Decimal" Value="0"/>
+<DataValueMember Name="Reset" DataType="BOOL" Value="0"/>
+<DataValueMember Name="EnableOut" DataType="BOOL" Value="0"/>
+<DataValueMember Name="ACC" DataType="DINT" Radix="Decimal" Value="0"/>
+<DataValueMember Name="EN" DataType="BOOL" Value="0"/>
+<DataValueMember Name="TT" DataType="BOOL" Value="0"/>
+<DataValueMember Name="DN" DataType="BOOL" Value="0"/>
+<DataValueMember Name="Status" DataType="DINT" Radix="Hex" Value="16#0000_0000"/>
+<DataValueMember Name="InstructFault" DataType="BOOL" Value="0"/>
+<DataValueMember Name="PresetInv" DataType="BOOL" Value="0"/>
+</Structure>
+</DefaultData>
+</LocalTag>
+<LocalTag Name="char" DataType="SINT" Radix="Decimal" ExternalAccess="None">
+<DefaultData>00</DefaultData>
+<DefaultData Format="Decorated">
+<DataValue DataType="SINT" Radix="Decimal" Value="0"/>
+</DefaultData>
+</LocalTag>
+<LocalTag Name="code" DataType="SINT" Radix="Decimal" ExternalAccess="None">
+<DefaultData>00</DefaultData>
+<DefaultData Format="Decorated">
+<DataValue DataType="SINT" Radix="Decimal" Value="0"/>
+</DefaultData>
+</LocalTag>
+<LocalTag Name="char_pos" DataType="DINT" Radix="Decimal" ExternalAccess="None">
+<DefaultData>00 00 00 00</DefaultData>
+<DefaultData Format="Decorated">
+<DataValue DataType="DINT" Radix="Decimal" Value="0"/>
+</DefaultData>
+</LocalTag>
+<LocalTag Name="state" DataType="DINT" Radix="Decimal" ExternalAccess="None">
+<DefaultData>00 00 00 00</DefaultData>
+<DefaultData Format="Decorated">
+<DataValue DataType="DINT" Radix="Decimal" Value="0"/>
+</DefaultData>
+</LocalTag>
+<LocalTag Name="msg_data" DataType="STRING" ExternalAccess="None">
+<DefaultData>00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 
+00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 
+00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 
+00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 
+00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 
+00 00 00 00 00 00 00 00</DefaultData>
+<DefaultData Format="String" Length="0">
+<![CDATA['']]>
+</DefaultData>
+</LocalTag>
+<LocalTag Name="next_pos" DataType="DINT" Radix="Decimal" ExternalAccess="None">
+<DefaultData>00 00 00 00</DefaultData>
+<DefaultData Format="Decorated">
+<DataValue DataType="DINT" Radix="Decimal" Value="0"/>
+</DefaultData>
+</LocalTag>
+<LocalTag Name="delay_steps" DataType="DINT" Radix="Decimal" ExternalAccess="None">
+<DefaultData>00 00 00 00</DefaultData>
+<DefaultData Format="Decorated">
+<DataValue DataType="DINT" Radix="Decimal" Value="0"/>
+</DefaultData>
+</LocalTag>
+<LocalTag Name="charlen" DataType="DINT" Radix="Decimal" ExternalAccess="None">
+<DefaultData>00 00 00 00</DefaultData>
+<DefaultData Format="Decorated">
+<DataValue DataType="DINT" Radix="Decimal" Value="0"/>
+</DefaultData>
+</LocalTag>
+<LocalTag Name="bpm" DataType="DINT" Radix="Decimal" ExternalAccess="None">
+<DefaultData>00 00 00 00</DefaultData>
+<DefaultData Format="Decorated">
+<DataValue DataType="DINT" Radix="Decimal" Value="0"/>
+</DefaultData>
+</LocalTag>
+<LocalTag Name="ms" DataType="DINT" Radix="Decimal" ExternalAccess="None">
+<DefaultData>00 00 00 00</DefaultData>
+<DefaultData Format="Decorated">
+<DataValue DataType="DINT" Radix="Decimal" Value="0"/>
+</DefaultData>
+</LocalTag>
+<LocalTag Name="Configured" DataType="DINT" Radix="Decimal" ExternalAccess="None">
+<DefaultData>00 00 00 00</DefaultData>
+<DefaultData Format="Decorated">
+<DataValue DataType="DINT" Radix="Decimal" Value="0"/>
+</DefaultData>
+</LocalTag>
+</LocalTags>
+<Routines>
+<Routine Name="EnableInFalse" Type="ST">
+<STContent>
+<Line Number="0">
+<![CDATA[state := 0;]]>
+</Line>
+<Line Number="1">
+<![CDATA[msg_pos := 0;]]>
+</Line>
+<Line Number="2">
+<![CDATA[char_pos := 0;]]>
+</Line>
+<Line Number="3">
+<![CDATA[EN := 0;]]>
+</Line>
+<Line Number="4">
+<![CDATA[IP := 0;]]>
+</Line>
+<Line Number="5">
+<![CDATA[]]>
+</Line>
+<Line Number="6">
+<![CDATA[]]>
+</Line>
+<Line Number="7">
+<![CDATA[if Configured = 0 then]]>
+</Line>
+<Line Number="8">
+<![CDATA[]]>
+</Line>
+<Line Number="9">
+<![CDATA[	// Capital Letters]]>
+</Line>
+<Line Number="10">
+<![CDATA[	CODES[65].Length := 2; //A]]>
+</Line>
+<Line Number="11">
+<![CDATA[	CODES[65].Code := 2#00000010;]]>
+</Line>
+<Line Number="12">
+<![CDATA[	CODES[66].Length := 4; //B]]>
+</Line>
+<Line Number="13">
+<![CDATA[	CODES[66].Code := 2#00000001;]]>
+</Line>
+<Line Number="14">
+<![CDATA[	CODES[67].Length := 4; //C]]>
+</Line>
+<Line Number="15">
+<![CDATA[	CODES[67].Code := 2#00000101;]]>
+</Line>
+<Line Number="16">
+<![CDATA[	CODES[68].Length := 3; //D]]>
+</Line>
+<Line Number="17">
+<![CDATA[	CODES[68].Code := 2#00000001;]]>
+</Line>
+<Line Number="18">
+<![CDATA[	CODES[69].Length := 1; //E]]>
+</Line>
+<Line Number="19">
+<![CDATA[	CODES[69].Code := 2#00000000;]]>
+</Line>
+<Line Number="20">
+<![CDATA[	CODES[70].Length := 4; //F]]>
+</Line>
+<Line Number="21">
+<![CDATA[	CODES[70].Code := 2#00000100;]]>
+</Line>
+<Line Number="22">
+<![CDATA[	CODES[71].Length := 2; //G]]>
+</Line>
+<Line Number="23">
+<![CDATA[	CODES[71].Code := 2#00000011;]]>
+</Line>
+<Line Number="24">
+<![CDATA[	CODES[72].Length := 4; //H]]>
+</Line>
+<Line Number="25">
+<![CDATA[	CODES[72].Code := 2#00000000;]]>
+</Line>
+<Line Number="26">
+<![CDATA[	CODES[73].Length := 2; //I]]>
+</Line>
+<Line Number="27">
+<![CDATA[	CODES[73].Code := 2#00000000;]]>
+</Line>
+<Line Number="28">
+<![CDATA[	CODES[74].Length := 4; //J]]>
+</Line>
+<Line Number="29">
+<![CDATA[	CODES[74].Code := 2#00001110;]]>
+</Line>
+<Line Number="30">
+<![CDATA[	CODES[75].Length := 3; //K]]>
+</Line>
+<Line Number="31">
+<![CDATA[	CODES[75].Code := 2#00000101;]]>
+</Line>
+<Line Number="32">
+<![CDATA[	CODES[76].Length := 4; //L]]>
+</Line>
+<Line Number="33">
+<![CDATA[	CODES[76].Code := 2#00000010;]]>
+</Line>
+<Line Number="34">
+<![CDATA[	CODES[77].Length := 2; //M]]>
+</Line>
+<Line Number="35">
+<![CDATA[	CODES[77].Code := 2#00000011;]]>
+</Line>
+<Line Number="36">
+<![CDATA[	CODES[78].Length := 2; //N]]>
+</Line>
+<Line Number="37">
+<![CDATA[	CODES[78].Code := 2#00000001;]]>
+</Line>
+<Line Number="38">
+<![CDATA[	CODES[79].Length := 3; //O]]>
+</Line>
+<Line Number="39">
+<![CDATA[	CODES[79].Code := 2#00000111;]]>
+</Line>
+<Line Number="40">
+<![CDATA[	CODES[80].Length := 4; //P]]>
+</Line>
+<Line Number="41">
+<![CDATA[	CODES[80].Code := 2#00000110;]]>
+</Line>
+<Line Number="42">
+<![CDATA[	CODES[81].Length := 4; //Q]]>
+</Line>
+<Line Number="43">
+<![CDATA[	CODES[81].Code := 2#000001011;]]>
+</Line>
+<Line Number="44">
+<![CDATA[	CODES[82].Length := 3; //R]]>
+</Line>
+<Line Number="45">
+<![CDATA[	CODES[82].Code := 2#00000010;]]>
+</Line>
+<Line Number="46">
+<![CDATA[	CODES[83].Length := 3; //S]]>
+</Line>
+<Line Number="47">
+<![CDATA[	CODES[83].Code := 2#00000000;]]>
+</Line>
+<Line Number="48">
+<![CDATA[	CODES[84].Length := 1; //T]]>
+</Line>
+<Line Number="49">
+<![CDATA[	CODES[84].Code := 2#00000001;]]>
+</Line>
+<Line Number="50">
+<![CDATA[	CODES[85].Length := 3; //U]]>
+</Line>
+<Line Number="51">
+<![CDATA[	CODES[85].Code := 2#00000100;]]>
+</Line>
+<Line Number="52">
+<![CDATA[	CODES[86].Length := 4; //V]]>
+</Line>
+<Line Number="53">
+<![CDATA[	CODES[86].Code := 2#00001000;]]>
+</Line>
+<Line Number="54">
+<![CDATA[	CODES[87].Length := 3; //W]]>
+</Line>
+<Line Number="55">
+<![CDATA[	CODES[87].Code := 2#00000110;]]>
+</Line>
+<Line Number="56">
+<![CDATA[	CODES[88].Length := 4; //X]]>
+</Line>
+<Line Number="57">
+<![CDATA[	CODES[88].Code := 2#00001001;]]>
+</Line>
+<Line Number="58">
+<![CDATA[	CODES[89].Length := 4; //Y]]>
+</Line>
+<Line Number="59">
+<![CDATA[	CODES[89].Code := 2#00001101;]]>
+</Line>
+<Line Number="60">
+<![CDATA[	CODES[90].Length := 4; //Z]]>
+</Line>
+<Line Number="61">
+<![CDATA[	CODES[90].Code := 2#00000011;]]>
+</Line>
+<Line Number="62">
+<![CDATA[]]>
+</Line>
+<Line Number="63">
+<![CDATA[	// Lower Case Letters]]>
+</Line>
+<Line Number="64">
+<![CDATA[	CODES[97].Length := 2; //a]]>
+</Line>
+<Line Number="65">
+<![CDATA[	CODES[97].Code := 2#00000010;]]>
+</Line>
+<Line Number="66">
+<![CDATA[	CODES[98].Length := 4; //b]]>
+</Line>
+<Line Number="67">
+<![CDATA[	CODES[98].Code := 2#00000001;]]>
+</Line>
+<Line Number="68">
+<![CDATA[	CODES[99].Length := 4; //c]]>
+</Line>
+<Line Number="69">
+<![CDATA[	CODES[99].Code := 2#00000101;]]>
+</Line>
+<Line Number="70">
+<![CDATA[	CODES[100].Length := 3; //d]]>
+</Line>
+<Line Number="71">
+<![CDATA[	CODES[100].Code := 2#00000001;]]>
+</Line>
+<Line Number="72">
+<![CDATA[	CODES[101].Length := 1; //e]]>
+</Line>
+<Line Number="73">
+<![CDATA[	CODES[101].Code := 2#00000000;]]>
+</Line>
+<Line Number="74">
+<![CDATA[	CODES[102].Length := 4; //f]]>
+</Line>
+<Line Number="75">
+<![CDATA[	CODES[102].Code := 2#00000100;]]>
+</Line>
+<Line Number="76">
+<![CDATA[	CODES[103].Length := 2; //g]]>
+</Line>
+<Line Number="77">
+<![CDATA[	CODES[103].Code := 2#00000011;]]>
+</Line>
+<Line Number="78">
+<![CDATA[	CODES[104].Length := 4; //h]]>
+</Line>
+<Line Number="79">
+<![CDATA[	CODES[104].Code := 2#00000000;]]>
+</Line>
+<Line Number="80">
+<![CDATA[	CODES[105].Length := 2; //i]]>
+</Line>
+<Line Number="81">
+<![CDATA[	CODES[105].Code := 2#00000000;]]>
+</Line>
+<Line Number="82">
+<![CDATA[	CODES[106].Length := 4; //j]]>
+</Line>
+<Line Number="83">
+<![CDATA[	CODES[106].Code := 2#00001110;]]>
+</Line>
+<Line Number="84">
+<![CDATA[	CODES[107].Length := 3; //k]]>
+</Line>
+<Line Number="85">
+<![CDATA[	CODES[107].Code := 2#00000101;]]>
+</Line>
+<Line Number="86">
+<![CDATA[	CODES[108].Length := 4; //l]]>
+</Line>
+<Line Number="87">
+<![CDATA[	CODES[108].Code := 2#00000010;]]>
+</Line>
+<Line Number="88">
+<![CDATA[	CODES[109].Length := 2; //m]]>
+</Line>
+<Line Number="89">
+<![CDATA[	CODES[109].Code := 2#00000011;]]>
+</Line>
+<Line Number="90">
+<![CDATA[	CODES[110].Length := 2; //n]]>
+</Line>
+<Line Number="91">
+<![CDATA[	CODES[110].Code := 2#00000001;]]>
+</Line>
+<Line Number="92">
+<![CDATA[	CODES[111].Length := 3; //o]]>
+</Line>
+<Line Number="93">
+<![CDATA[	CODES[111].Code := 2#00000111;]]>
+</Line>
+<Line Number="94">
+<![CDATA[	CODES[112].Length := 4; //p]]>
+</Line>
+<Line Number="95">
+<![CDATA[	CODES[112].Code := 2#00000110;]]>
+</Line>
+<Line Number="96">
+<![CDATA[	CODES[113].Length := 4; //q]]>
+</Line>
+<Line Number="97">
+<![CDATA[	CODES[113].Code := 2#000001011;]]>
+</Line>
+<Line Number="98">
+<![CDATA[	CODES[114].Length := 3; //r]]>
+</Line>
+<Line Number="99">
+<![CDATA[	CODES[114].Code := 2#00000010;]]>
+</Line>
+<Line Number="100">
+<![CDATA[	CODES[115].Length := 3; //s]]>
+</Line>
+<Line Number="101">
+<![CDATA[	CODES[115].Code := 2#00000000;]]>
+</Line>
+<Line Number="102">
+<![CDATA[	CODES[116].Length := 1; //t]]>
+</Line>
+<Line Number="103">
+<![CDATA[	CODES[116].Code := 2#00000001;]]>
+</Line>
+<Line Number="104">
+<![CDATA[	CODES[117].Length := 3; //u]]>
+</Line>
+<Line Number="105">
+<![CDATA[	CODES[117].Code := 2#00000100;]]>
+</Line>
+<Line Number="106">
+<![CDATA[	CODES[118].Length := 4; //v]]>
+</Line>
+<Line Number="107">
+<![CDATA[	CODES[118].Code := 2#00001000;]]>
+</Line>
+<Line Number="108">
+<![CDATA[	CODES[119].Length := 3; //w]]>
+</Line>
+<Line Number="109">
+<![CDATA[	CODES[119].Code := 2#00000110;]]>
+</Line>
+<Line Number="110">
+<![CDATA[	CODES[120].Length := 4; //x]]>
+</Line>
+<Line Number="111">
+<![CDATA[	CODES[120].Code := 2#00001001;]]>
+</Line>
+<Line Number="112">
+<![CDATA[	CODES[121].Length := 4; //y]]>
+</Line>
+<Line Number="113">
+<![CDATA[	CODES[121].Code := 2#00001101;]]>
+</Line>
+<Line Number="114">
+<![CDATA[	CODES[122].Length := 4; //z]]>
+</Line>
+<Line Number="115">
+<![CDATA[	CODES[122].Code := 2#00000011;]]>
+</Line>
+<Line Number="116">
+<![CDATA[]]>
+</Line>
+<Line Number="117">
+<![CDATA[	//Numbers]]>
+</Line>
+<Line Number="118">
+<![CDATA[	CODES[48].Length := 5; //0]]>
+</Line>
+<Line Number="119">
+<![CDATA[	CODES[48].Code := 2#00011111;]]>
+</Line>
+<Line Number="120">
+<![CDATA[	CODES[49].Length := 5; //1]]>
+</Line>
+<Line Number="121">
+<![CDATA[	CODES[49].Code := 2#00011110;]]>
+</Line>
+<Line Number="122">
+<![CDATA[	CODES[50].Length := 5; //2]]>
+</Line>
+<Line Number="123">
+<![CDATA[	CODES[50].Code := 2#00011100;]]>
+</Line>
+<Line Number="124">
+<![CDATA[	CODES[51].Length := 5; //3]]>
+</Line>
+<Line Number="125">
+<![CDATA[	CODES[51].Code := 2#00011000;]]>
+</Line>
+<Line Number="126">
+<![CDATA[	CODES[52].Length := 5; //4]]>
+</Line>
+<Line Number="127">
+<![CDATA[	CODES[52].Code := 2#00010000;]]>
+</Line>
+<Line Number="128">
+<![CDATA[	CODES[53].Length := 5; //5]]>
+</Line>
+<Line Number="129">
+<![CDATA[	CODES[53].Code := 2#00000000;]]>
+</Line>
+<Line Number="130">
+<![CDATA[	CODES[54].Length := 5; //6]]>
+</Line>
+<Line Number="131">
+<![CDATA[	CODES[54].Code := 2#00000001;]]>
+</Line>
+<Line Number="132">
+<![CDATA[	CODES[55].Length := 5; //7]]>
+</Line>
+<Line Number="133">
+<![CDATA[	CODES[55].Code := 2#00000011;]]>
+</Line>
+<Line Number="134">
+<![CDATA[	CODES[56].Length := 5; //8]]>
+</Line>
+<Line Number="135">
+<![CDATA[	CODES[56].Code := 2#00000111;]]>
+</Line>
+<Line Number="136">
+<![CDATA[	CODES[57].Length := 5; //9]]>
+</Line>
+<Line Number="137">
+<![CDATA[	CODES[57].Code := 2#00001111;]]>
+</Line>
+<Line Number="138">
+<![CDATA[]]>
+</Line>
+<Line Number="139">
+<![CDATA[	//Punctuation]]>
+</Line>
+<Line Number="140">
+<![CDATA[	CODES[38].Length := 5; //&]]>
+</Line>
+<Line Number="141">
+<![CDATA[	CODES[38].Code := 2#00000010;]]>
+</Line>
+<Line Number="142">
+<![CDATA[	CODES[39].Length := 6; //']]>
+</Line>
+<Line Number="143">
+<![CDATA[	CODES[39].Code := 2#00011110;]]>
+</Line>
+<Line Number="144">
+<![CDATA[	CODES[64].Length := 6; //\@]]>
+</Line>
+<Line Number="145">
+<![CDATA[	CODES[64].Code := 2#00010110;]]>
+</Line>
+<Line Number="146">
+<![CDATA[	CODES[41].Length := 6; //)]]>
+</Line>
+<Line Number="147">
+<![CDATA[	CODES[41].Code := 2#000101101;]]>
+</Line>
+<Line Number="148">
+<![CDATA[	CODES[40].Length := 5; //(]]>
+</Line>
+<Line Number="149">
+<![CDATA[	CODES[40].Code := 2#000001101;]]>
+</Line>
+<Line Number="150">
+<![CDATA[	CODES[58].Length := 6; //:]]>
+</Line>
+<Line Number="151">
+<![CDATA[	CODES[58].Code := 2#00000111;]]>
+</Line>
+<Line Number="152">
+<![CDATA[	CODES[44].Length := 6; //,]]>
+</Line>
+<Line Number="153">
+<![CDATA[	CODES[44].Code := 2#00110011;]]>
+</Line>
+<Line Number="154">
+<![CDATA[	CODES[61].Length := 5; //=]]>
+</Line>
+<Line Number="155">
+<![CDATA[	CODES[61].Code := 2#00010001;]]>
+</Line>
+<Line Number="156">
+<![CDATA[	CODES[33].Length := 6; //!]]>
+</Line>
+<Line Number="157">
+<![CDATA[	CODES[33].Code := 2#00110101;]]>
+</Line>
+<Line Number="158">
+<![CDATA[	CODES[46].Length := 6; //.]]>
+</Line>
+<Line Number="159">
+<![CDATA[	CODES[46].Code := 2#00101010;]]>
+</Line>
+<Line Number="160">
+<![CDATA[	CODES[45].Length := 6; //-]]>
+</Line>
+<Line Number="161">
+<![CDATA[	CODES[45].Code := 2#00100001;]]>
+</Line>
+<Line Number="162">
+<![CDATA[	CODES[43].Length := 5; //+]]>
+</Line>
+<Line Number="163">
+<![CDATA[	CODES[43].Code := 2#00001010;]]>
+</Line>
+<Line Number="164">
+<![CDATA[	CODES[34].Length := 6; //"]]>
+</Line>
+<Line Number="165">
+<![CDATA[	CODES[34].Code := 2#00010010;]]>
+</Line>
+<Line Number="166">
+<![CDATA[	CODES[63].Length := 6; //?]]>
+</Line>
+<Line Number="167">
+<![CDATA[	CODES[63].Code := 2#00001100;]]>
+</Line>
+<Line Number="168">
+<![CDATA[	CODES[47].Length := 5; ///]]>
+</Line>
+<Line Number="169">
+<![CDATA[	CODES[47].Code := 2#00001001;]]>
+</Line>
+<Line Number="170">
+<![CDATA[]]>
+</Line>
+<Line Number="171">
+<![CDATA[	//Control]]>
+</Line>
+<Line Number="172">
+<![CDATA[	CODES[10].Length := 4; // Newline (LF)]]>
+</Line>
+<Line Number="173">
+<![CDATA[	CODES[10].Code := 2#00001010;]]>
+</Line>
+<Line Number="174">
+<![CDATA[	CODES[3].Length := 5; //End Of Message (ETX)]]>
+</Line>
+<Line Number="175">
+<![CDATA[	CODES[3].Code := 2#00001010;]]>
+</Line>
+<Line Number="176">
+<![CDATA[	CODES[0].Length := 5; //Wait (NUL)]]>
+</Line>
+<Line Number="177">
+<![CDATA[	CODES[0].Code := 2#00000010;]]>
+</Line>
+<Line Number="178">
+<![CDATA[	CODES[24].Length := 7; //Break (CAN)]]>
+</Line>
+<Line Number="179">
+<![CDATA[	CODES[24].Code := 2#01010001;]]>
+</Line>
+<Line Number="180">
+<![CDATA[	CODES[13].Length := 5; //New Paragraph (CR)]]>
+</Line>
+<Line Number="181">
+<![CDATA[	CODES[13].Code := 2#00010001;]]>
+</Line>
+<Line Number="182">
+<![CDATA[	CODES[8].Length := 8; //Clear (BS)]]>
+</Line>
+<Line Number="183">
+<![CDATA[	CODES[8].Code := 2#00100101;]]>
+</Line>
+<Line Number="184">
+<![CDATA[	CODES[5].Length := 5; //Invite a specific station to transmit (ENQ)]]>
+</Line>
+<Line Number="185">
+<![CDATA[	CODES[5].Code := 2#00001101;]]>
+</Line>
+<Line Number="186">
+<![CDATA[	CODES[23].Length := 6; //End of transmission (ETB)]]>
+</Line>
+<Line Number="187">
+<![CDATA[	CODES[23].Code := 2#00101000;]]>
+</Line>
+<Line Number="188">
+<![CDATA[	CODES[6].Length := 5; //Understood (ACK)]]>
+</Line>
+<Line Number="189">
+<![CDATA[	CODES[6].Code := 2#00001000;]]>
+</Line>
+<Line Number="190">
+<![CDATA[]]>
+</Line>
+<Line Number="191">
+<![CDATA[	Configured := 1;]]>
+</Line>
+<Line Number="192">
+<![CDATA[]]>
+</Line>
+<Line Number="193">
+<![CDATA[end_if;]]>
+</Line>
+</STContent>
+</Routine>
+<Routine Name="Logic" Type="ST">
+<STContent>
+<Line Number="0">
+<![CDATA[// A space is 7 time units]]>
+</Line>
+<Line Number="1">
+<![CDATA[// Between letters is 3 time units]]>
+</Line>
+<Line Number="2">
+<![CDATA[// Between dots or dashes is 1 time unit]]>
+</Line>
+<Line Number="3">
+<![CDATA[// A dot is 1 time unit]]>
+</Line>
+<Line Number="4">
+<![CDATA[// A dash is 3 time units]]>
+</Line>
+<Line Number="5">
+<![CDATA[]]>
+</Line>
+<Line Number="6">
+<![CDATA[]]>
+</Line>
+<Line Number="7">
+<![CDATA[if WPM > 0 then]]>
+</Line>
+<Line Number="8">
+<![CDATA[	bpm := WPM * 50;]]>
+</Line>
+<Line Number="9">
+<![CDATA[	ms := 60000 / bpm;]]>
+</Line>
+<Line Number="10">
+<![CDATA[	if ms > 0 then]]>
+</Line>
+<Line Number="11">
+<![CDATA[		tick_timer.pre := ms;]]>
+</Line>
+<Line Number="12">
+<![CDATA[	end_if;]]>
+</Line>
+<Line Number="13">
+<![CDATA[end_if;]]>
+</Line>
+<Line Number="14">
+<![CDATA[]]>
+</Line>
+<Line Number="15">
+<![CDATA[tick_timer.TimerEnable := 1;]]>
+</Line>
+<Line Number="16">
+<![CDATA[TONR(tick_timer);]]>
+</Line>
+<Line Number="17">
+<![CDATA[tick_timer.reset := 0;]]>
+</Line>
+<Line Number="18">
+<![CDATA[]]>
+</Line>
+<Line Number="19">
+<![CDATA[]]>
+</Line>
+<Line Number="20">
+<![CDATA[if tick_timer.dn then]]>
+</Line>
+<Line Number="21">
+<![CDATA[	case state OF]]>
+</Line>
+<Line Number="22">
+<![CDATA[]]>
+</Line>
+<Line Number="23">
+<![CDATA[	// Start over]]>
+</Line>
+<Line Number="24">
+<![CDATA[	0:]]>
+</Line>
+<Line Number="25">
+<![CDATA[		Cop(Message, msg_data,1); // So the message doesn't change on us during output]]>
+</Line>
+<Line Number="26">
+<![CDATA[		msg_pos := 0;]]>
+</Line>
+<Line Number="27">
+<![CDATA[		char_pos := 0;]]>
+</Line>
+<Line Number="28">
+<![CDATA[		state := 1;]]>
+</Line>
+<Line Number="29">
+<![CDATA[		delay_steps := 0;]]>
+</Line>
+<Line Number="30">
+<![CDATA[		DN := 0;]]>
+</Line>
+<Line Number="31">
+<![CDATA[		IP := 1;]]>
+</Line>
+<Line Number="32">
+<![CDATA[	// Play Letter]]>
+</Line>
+<Line Number="33">
+<![CDATA[	1:]]>
+</Line>
+<Line Number="34">
+<![CDATA[		Output := 0;]]>
+</Line>
+<Line Number="35">
+<![CDATA[		char := msg_data.data[msg_pos];]]>
+</Line>
+<Line Number="36">
+<![CDATA[		code := CODES[char].code;]]>
+</Line>
+<Line Number="37">
+<![CDATA[		charlen := CODES[char].length;]]>
+</Line>
+<Line Number="38">
+<![CDATA[		if charlen > char_pos then]]>
+</Line>
+<Line Number="39">
+<![CDATA[			if code.[char_pos] then]]>
+</Line>
+<Line Number="40">
+<![CDATA[				state := 6; // Dash]]>
+</Line>
+<Line Number="41">
+<![CDATA[			else]]>
+</Line>
+<Line Number="42">
+<![CDATA[				state := 5; // Dot]]>
+</Line>
+<Line Number="43">
+<![CDATA[			end_if;]]>
+</Line>
+<Line Number="44">
+<![CDATA[		else]]>
+</Line>
+<Line Number="45">
+<![CDATA[			next_pos := msg_pos + 1;]]>
+</Line>
+<Line Number="46">
+<![CDATA[			if next_pos < msg_data.len then]]>
+</Line>
+<Line Number="47">
+<![CDATA[				if msg_data.data[next_pos] = 32 then]]>
+</Line>
+<Line Number="48">
+<![CDATA[					state := 3; // next character is a space.]]>
+</Line>
+<Line Number="49">
+<![CDATA[				else]]>
+</Line>
+<Line Number="50">
+<![CDATA[					state := 2; // pause before next character.]]>
+</Line>
+<Line Number="51">
+<![CDATA[				end_if;]]>
+</Line>
+<Line Number="52">
+<![CDATA[			else]]>
+</Line>
+<Line Number="53">
+<![CDATA[				state := 4; // End of the message.]]>
+</Line>
+<Line Number="54">
+<![CDATA[			end_if;]]>
+</Line>
+<Line Number="55">
+<![CDATA[				]]>
+</Line>
+<Line Number="56">
+<![CDATA[]]>
+</Line>
+<Line Number="57">
+<![CDATA[		end_if;]]>
+</Line>
+<Line Number="58">
+<![CDATA[	]]>
+</Line>
+<Line Number="59">
+<![CDATA[	// Next Letter]]>
+</Line>
+<Line Number="60">
+<![CDATA[	2:]]>
+</Line>
+<Line Number="61">
+<![CDATA[		// A 3 tick delay needs one extra to be right because you get one]]>
+</Line>
+<Line Number="62">
+<![CDATA[		// tick for the state 1 dispatch to 3, one tick here, and 1 tick back at state 1.]]>
+</Line>
+<Line Number="63">
+<![CDATA[		state := 1;]]>
+</Line>
+<Line Number="64">
+<![CDATA[		msg_pos := msg_pos + 1;]]>
+</Line>
+<Line Number="65">
+<![CDATA[		char_pos := 0;]]>
+</Line>
+<Line Number="66">
+<![CDATA[]]>
+</Line>
+<Line Number="67">
+<![CDATA[]]>
+</Line>
+<Line Number="68">
+<![CDATA[	// Space]]>
+</Line>
+<Line Number="69">
+<![CDATA[	3:]]>
+</Line>
+<Line Number="70">
+<![CDATA[		// A 7 tick delay needs 5 extra to be right because you get one]]>
+</Line>
+<Line Number="71">
+<![CDATA[		// tick for the state 1 dispatch to 3, one tick here, and 1 tick back at state 1.]]>
+</Line>
+<Line Number="72">
+<![CDATA[		if delay_steps = 5 then]]>
+</Line>
+<Line Number="73">
+<![CDATA[			state := 1;]]>
+</Line>
+<Line Number="74">
+<![CDATA[			msg_pos := msg_pos + 1;]]>
+</Line>
+<Line Number="75">
+<![CDATA[			delay_steps := 0;]]>
+</Line>
+<Line Number="76">
+<![CDATA[			char_pos := 0;]]>
+</Line>
+<Line Number="77">
+<![CDATA[		else]]>
+</Line>
+<Line Number="78">
+<![CDATA[			delay_steps := delay_steps + 1;]]>
+</Line>
+<Line Number="79">
+<![CDATA[		end_if;]]>
+</Line>
+<Line Number="80">
+<![CDATA[]]>
+</Line>
+<Line Number="81">
+<![CDATA[	// Complete]]>
+</Line>
+<Line Number="82">
+<![CDATA[	4:]]>
+</Line>
+<Line Number="83">
+<![CDATA[		Output := 0;]]>
+</Line>
+<Line Number="84">
+<![CDATA[		DN := 1;]]>
+</Line>
+<Line Number="85">
+<![CDATA[		IP := 0;]]>
+</Line>
+<Line Number="86">
+<![CDATA[]]>
+</Line>
+<Line Number="87">
+<![CDATA[	// Dot]]>
+</Line>
+<Line Number="88">
+<![CDATA[	5:]]>
+</Line>
+<Line Number="89">
+<![CDATA[		// Turn it on and go right back to state 1.  That gieves one tick of on-ness.]]>
+</Line>
+<Line Number="90">
+<![CDATA[		Output := 1;]]>
+</Line>
+<Line Number="91">
+<![CDATA[		state := 1;]]>
+</Line>
+<Line Number="92">
+<![CDATA[		char_pos := char_pos + 1;]]>
+</Line>
+<Line Number="93">
+<![CDATA[		delay_steps := 0;]]>
+</Line>
+<Line Number="94">
+<![CDATA[		]]>
+</Line>
+<Line Number="95">
+<![CDATA[	// Dash]]>
+</Line>
+<Line Number="96">
+<![CDATA[	6:]]>
+</Line>
+<Line Number="97">
+<![CDATA[		// Two ticks are needed since the return to state 1 counts as the third tick.]]>
+</Line>
+<Line Number="98">
+<![CDATA[		if delay_steps < 2 then]]>
+</Line>
+<Line Number="99">
+<![CDATA[			Output := 1;]]>
+</Line>
+<Line Number="100">
+<![CDATA[			delay_steps := delay_steps + 1;]]>
+</Line>
+<Line Number="101">
+<![CDATA[		elsif delay_steps = 2 then]]>
+</Line>
+<Line Number="102">
+<![CDATA[				Output := 1;]]>
+</Line>
+<Line Number="103">
+<![CDATA[				state := 1;]]>
+</Line>
+<Line Number="104">
+<![CDATA[				char_pos := char_pos + 1;]]>
+</Line>
+<Line Number="105">
+<![CDATA[				delay_steps := 0;]]>
+</Line>
+<Line Number="106">
+<![CDATA[		else]]>
+</Line>
+<Line Number="107">
+<![CDATA[			delay_steps := delay_steps + 1;]]>
+</Line>
+<Line Number="108">
+<![CDATA[		end_if;]]>
+</Line>
+<Line Number="109">
+<![CDATA[		]]>
+</Line>
+<Line Number="110">
+<![CDATA[	ELSE]]>
+</Line>
+<Line Number="111">
+<![CDATA[		state := 0;]]>
+</Line>
+<Line Number="112">
+<![CDATA[	END_CASE;]]>
+</Line>
+<Line Number="113">
+<![CDATA[]]>
+</Line>
+<Line Number="114">
+<![CDATA[	tick_timer.reset := 1;]]>
+</Line>
+<Line Number="115">
+<![CDATA[end_if;]]>
+</Line>
+<Line Number="116">
+<![CDATA[]]>
+</Line>
+<Line Number="117">
+<![CDATA[if msg_pos > 0 then]]>
+</Line>
+<Line Number="118">
+<![CDATA[if msg_pos >= msg_data.len then]]>
+</Line>
+<Line Number="119">
+<![CDATA[	state := 4;]]>
+</Line>
+<Line Number="120">
+<![CDATA[end_if;]]>
+</Line>
+<Line Number="121">
+<![CDATA[end_if;]]>
+</Line>
+<Line Number="122">
+<![CDATA[]]>
+</Line>
+<Line Number="123">
+<![CDATA[EN := 1;]]>
+</Line>
+</STContent>
+</Routine>
+</Routines>
+<Dependencies>
+<Dependency Type="DataType" Name="Code"/>
+</Dependencies>
+</AddOnInstructionDefinition>
+</AddOnInstructionDefinitions>
+</Controller>
+</RSLogix5000Content>
